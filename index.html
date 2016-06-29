@@ -8,7 +8,10 @@
 	<div class="container"></div>
 <script src="js/script.js"></script>
 <script>
-	var game = new Game('container');
+	var game = new Game({
+		container: 'container',
+		numberOfHoles: 5
+	}).init();
 </script>
 </body>
 </html>
