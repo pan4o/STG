@@ -10,6 +10,7 @@ function Game (options) {
 
 	this.init = function () {
 		this.drawHoles();
+		this.setHolePosition();
 	}
 
 	this.drawHoles = function () {
@@ -22,7 +23,11 @@ function Game (options) {
 	}
 
 	this.setHolePosition = function () {
-
+		for (var i = 0; i < this.holesArr.length; i++) {
+			if (i % 2) {
+				this.holesArr[i].style.top = 50 + "px"
+			}
+		}
 	}
 
 }
