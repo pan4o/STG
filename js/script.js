@@ -3,17 +3,27 @@
 function Game (options) {
 
 	var self = this;
-
+	this.gameTime = options.gameTime || 30;
 	this.numberOfHoles = options.numberOfHoles || 3;
+	this.timerContainer = document.getElementsByClassName(options.timer)[0];
 	this.container = document.getElementsByClassName(options.container)[0];
 	this.holesArr = [];
 	this.delay = options.delay || 2000;
+	this.busyHoleIndex = null;
 
 	this.init = function () {
-
+		this.createTimer();
 		this.drawHoles();
 		this.setHolePosition();
-		this.insertManInRandomHole();
+		this.insertManInRandomHole('good');
+
+		setTimeout(
+			function () {
+
+				self.insertManInRandomHole('bad');
+
+			}, this.delay / 2
+		)
 
 	}
 
@@ -59,14 +69,58 @@ function Game (options) {
 		return man;
 	}
 
-	this.insertManInRandomHole = function () {
+	this.insertManInRandomHole = function (type) {
 
-		var man = this.createMan('good'), holeIndex;
+		var man = this.createMan(type),
+			randomHoleIndex,
+			interval;
 
-		var interval = setInterval(
+		interval = setInterval(
 			function () {
-				self.holesArr[self.getRandomHole()].appendChild(man);
+
+				randomHoleIndex = self.getRandomHole();
+
+				if (self.busyHoleIndex == randomHoleIndex) {
+
+					if (randomHoleIndex == self.holesArr.length - 1) {
+
+						randomHoleIndex--;
+
+					} else {
+
+						randomHoleIndex++;
+
+					}
+				}
+
+				self.busyHoleIndex = randomHoleIndex;
+
+				self.holesArr[randomHoleIndex].appendChild(man);
+
 			}, self.delay
+		);
+
+	}
+
+	this.createTimer = function () {
+
+		var startTime = this.gameTime,
+			interval;
+
+		interval = setInterval(
+			function () {
+
+				self.timerContainer.innerHTML = startTime;
+
+				if (!startTime) {
+
+					clearInterval(interval);
+
+				}
+
+				startTime--;
+
+			}, 1000
 		);
 
 	}

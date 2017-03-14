@@ -6,7 +6,6 @@
 
 .hole {
 	display: inline-block;
-	margin:  0 20px 0 0;
 	width: 100px;
 	height: 50px;
 	border: 1px solid #000000;
@@ -29,4 +28,10 @@
 
 .guy.good {
 	background-color: green;
+}
+
+.timer {
+	text-align: center;
+	font-size: 40px;
+	min-height: 47px;
 }

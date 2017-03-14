@@ -5,16 +5,18 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+	<div class="timer"></div>
 	<div class="container"></div>
-<script src="js/script.js"></script>
-<script>
-	var game = new Game(
-		{
-			container: 'container',
-			numberOfHoles: 5,
-			delay: 1000
-		}
-	).init();
-</script>
+	<script src="js/script.js"></script>
+	<script>
+		var game = new Game(
+			{
+				container: 'container',
+				timer: 'timer',
+				numberOfHoles: 5,
+				gameTime: 5
+			}
+		).init();
+	</script>
 </body>
 </html>
