@@ -3,24 +3,33 @@
 function Game (options) {
 
 	var self = this;
+
 	this.gameTime = options.gameTime || 30;
 	this.numberOfHoles = options.numberOfHoles || 3;
+	this.delay = options.delay || 2000;
+
 	this.timerContainer = document.getElementsByClassName(options.timer)[0];
 	this.container = document.getElementsByClassName(options.container)[0];
+
 	this.holesArr = [];
-	this.delay = options.delay || 2000;
 	this.busyHoleIndex = null;
 
+	this.intervalForGood = null;
+	this.intervalForBad = null;
+
+	this.gamePoints = 0;
+
 	this.init = function () {
+
 		this.createTimer();
 		this.drawHoles();
 		this.setHolePosition();
-		this.insertManInRandomHole('good');
+		this.intervalForGood = this.insertManInRandomHole('good');
 
 		setTimeout(
 			function () {
 
-				self.insertManInRandomHole('bad');
+			self.intervalForBad = self.insertManInRandomHole('bad');
 
 			}, this.delay / 2
 		)
@@ -44,10 +53,14 @@ function Game (options) {
 
 	this.setHolePosition = function () {
 
-		for (var i = 0; i < this.holesArr.length; i++) {
+		var length = this.holesArr.length;
+
+		for (var i = 0; i < length; i++) {
 
 			if (i % 2) {
-				this.holesArr[i].style.top = 50 + "px"
+
+				this.holesArr[i].style.top = 50 + "px";
+
 			}
 
 		}
@@ -64,9 +77,39 @@ function Game (options) {
 
 		var man = document.createElement('div'),
 		interval;
+
 		man.classList.add('guy', type);
 
+		man.setAttribute('data-type', type);
+
+		man.addEventListener('click', function (event) {
+
+			self.clickHandler(event.target);
+
+		}, false);
+
 		return man;
+
+	}
+
+	this.clickHandler = function (target) {
+
+		if (self.checkAttribute(target, 'good')) {
+
+			console.log('good');
+
+		} else if (self.checkAttribute(target, 'bad')) {
+
+			console.log('bad');
+
+		}
+
+	}
+
+	this.checkAttribute = function (node, value) {
+
+		return node.getAttribute('data-type') == value;
+
 	}
 
 	this.insertManInRandomHole = function (type) {
@@ -100,6 +143,8 @@ function Game (options) {
 			}, self.delay
 		);
 
+		return interval;
+
 	}
 
 	this.createTimer = function () {
@@ -116,12 +161,21 @@ function Game (options) {
 
 					clearInterval(interval);
 
+					self.endGame();
+
 				}
 
 				startTime--;
 
 			}, 1000
 		);
+
+	}
+
+	this.endGame = function () {
+
+		clearInterval(this.intervalForGood);
+		clearInterval(this.intervalForBad);
 
 	}
 

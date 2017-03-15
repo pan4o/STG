@@ -6,7 +6,14 @@
 </head>
 <body>
 	<div class="timer"></div>
+
 	<div class="container"></div>
+
+	<div class="points">
+		Points: 
+		<span class="points-span">0</span>
+	</div>
+	
 	<script src="js/script.js"></script>
 	<script>
 		var game = new Game(
@@ -14,7 +21,7 @@
 				container: 'container',
 				timer: 'timer',
 				numberOfHoles: 5,
-				gameTime: 5
+				gameTime: 30
 			}
 		).init();
 	</script>

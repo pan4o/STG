@@ -20,6 +20,7 @@
 	height: 50px;
 	margin: 0 auto;
 	cursor: pointer;
+	border-radius: 25px;
 }
 
 .guy.bad {
@@ -33,5 +34,9 @@
 .timer {
 	text-align: center;
 	font-size: 40px;
-	min-height: 47px;
+	min-height: 50px;
+}
+
+.points {
+	text-align: center;
 }
