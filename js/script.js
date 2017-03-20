@@ -10,6 +10,7 @@ function Game (options) {
 
 	this.timerContainer = document.getElementsByClassName(options.timer)[0];
 	this.container = document.getElementsByClassName(options.container)[0];
+	this.pointsNode = document.getElementById('points');
 
 	this.holesArr = [];
 	this.busyHoleIndex = null;
@@ -96,13 +97,27 @@ function Game (options) {
 
 		if (self.checkAttribute(target, 'good')) {
 
-			console.log('good');
+			this.plusPoints();
 
 		} else if (self.checkAttribute(target, 'bad')) {
 
-			console.log('bad');
+			this.minusPoints();
 
 		}
+
+	}
+
+	this.plusPoints = function () {
+
+		this.gamePoints += 10;
+		this.pointsNode.innerHTML = this.gamePoints;
+
+	}
+
+	this.minusPoints = function () {
+
+		this.gamePoints -= 10;
+		this.pointsNode.innerHTML = this.gamePoints;
 
 	}
 
