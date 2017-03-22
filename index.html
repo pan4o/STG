@@ -5,21 +5,12 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-	<div class="timer"></div>
-
-	<div class="container"></div>
-
-	<div class="points-block">
-		Points: 
-		<span id="points">0</span>
-	</div>
-	
+	<div id="container"></div>
 	<script src="js/script.js"></script>
 	<script>
 		var game = new Game(
 			{
 				container: 'container',
-				timer: 'timer',
 				numberOfHoles: 5,
 				gameTime: 30
 			}

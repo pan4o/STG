@@ -8,9 +8,7 @@ function Game (options) {
 	this.numberOfHoles = options.numberOfHoles || 3;
 	this.delay = options.delay || 2000;
 
-	this.timerContainer = document.getElementsByClassName(options.timer)[0];
-	this.container = document.getElementsByClassName(options.container)[0];
-	this.pointsNode = document.getElementById('points');
+	this.container = document.getElementById(options.container);
 
 	this.holesArr = [];
 	this.busyHoleIndex = null;
@@ -22,9 +20,9 @@ function Game (options) {
 
 	this.init = function () {
 
+		this.prepareHTML();
 		this.createTimer();
-		this.drawHoles();
-		this.setHolePosition();
+
 		this.intervalForGood = this.insertManInRandomHole('good');
 
 		setTimeout(
@@ -37,7 +35,27 @@ function Game (options) {
 
 	}
 
-	this.drawHoles = function () {
+	this.prepareHTML = function () {
+
+		var holes = document.createElement('div'),
+			timer = document.createElement('div'),
+			points = document.createElement('div');
+
+		points.classList.add('points-block');
+		points.innerHTML = "Points: <span id='points'>" + this.gamePoints + "</span>";
+
+		holes.setAttribute('id','holes');
+		timer.setAttribute('id','timer');
+
+		this.drawHoles(holes);
+
+		this.container.appendChild(timer);
+		this.container.appendChild(holes);
+		this.container.appendChild(points);
+
+	}
+
+	this.drawHoles = function (container) {
 
 		var i, hole;
 
@@ -45,10 +63,12 @@ function Game (options) {
 
 			hole = document.createElement('div');
 			hole.classList.add('hole');
-			this.container.appendChild(hole);
+			container.appendChild(hole);
 			this.holesArr.push(hole);
 
 		}
+
+		this.setHolePosition();
 
 	}
 
@@ -97,27 +117,31 @@ function Game (options) {
 
 		if (self.checkAttribute(target, 'good')) {
 
-			this.plusPoints();
+			this.changePoints(true);
 
 		} else if (self.checkAttribute(target, 'bad')) {
 
-			this.minusPoints();
+			this.changePoints(false);
 
 		}
 
 	}
 
-	this.plusPoints = function () {
+	this.changePoints = function (increase) {
 
-		this.gamePoints += 10;
-		this.pointsNode.innerHTML = this.gamePoints;
+		var pointsNode = document.getElementById('points');
 
-	}
+		if (increase) {
 
-	this.minusPoints = function () {
+			this.gamePoints += 10;
 
-		this.gamePoints -= 10;
-		this.pointsNode.innerHTML = this.gamePoints;
+		} else {
+
+			this.gamePoints -= 10;
+
+		}
+
+		pointsNode.innerHTML = this.gamePoints;
 
 	}
 
@@ -165,12 +189,15 @@ function Game (options) {
 	this.createTimer = function () {
 
 		var startTime = this.gameTime,
-			interval;
+			interval,
+			timer;
+
+		timer = document.getElementById('timer');
 
 		interval = setInterval(
 			function () {
 
-				self.timerContainer.innerHTML = startTime;
+				timer.innerHTML = startTime;
 
 				if (!startTime) {
 
