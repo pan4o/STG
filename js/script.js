@@ -16,6 +16,8 @@ function Game (options) {
 	this.intervalForBad = null;
 	this.gamePoints = null;
 
+	this.clickedAttr = 'clicked';
+
 	this.init = function () {
 
 		this.holesArr = [];
@@ -116,7 +118,7 @@ function Game (options) {
 
 	this.clickHandler = function (target) {
 
-		if (!target.hasAttribute('clicked')) {
+		if (!target.hasAttribute(this.clickedAttr)) {
 
 			if (self.checkAttribute(target, 'good')) {
 
@@ -131,7 +133,7 @@ function Game (options) {
 
 		}
 
-		target.setAttribute('clicked', true);
+		target.setAttribute(this.clickedAttr, true);
 
 	}
 
@@ -187,9 +189,9 @@ function Game (options) {
 
 				self.holesArr[randomHoleIndex].appendChild(man);
 
-				if (man.hasAttribute('clicked')) {
+				if (man.hasAttribute(self.clickedAttr)) {
 
-					man.removeAttribute('clicked');
+					man.removeAttribute(self.clickedAttr);
 
 				}
 
