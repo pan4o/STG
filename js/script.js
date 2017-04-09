@@ -10,15 +10,16 @@ function Game (options) {
 
 	this.container = document.getElementById(options.container);
 
-	this.holesArr = [];
+	this.holesArr = null;
 	this.busyHoleIndex = null;
-
 	this.intervalForGood = null;
 	this.intervalForBad = null;
-
-	this.gamePoints = 0;
+	this.gamePoints = null;
 
 	this.init = function () {
+
+		this.holesArr = [];
+		this.gamePoints = 0;
 
 		this.prepareHTML();
 		this.createTimer();
@@ -119,11 +120,14 @@ function Game (options) {
 
 			this.changePoints(true);
 
+
 		} else if (self.checkAttribute(target, 'bad')) {
 
 			this.changePoints(false);
 
 		}
+
+		//target.setAttribute('clicked', true);
 
 	}
 
@@ -219,6 +223,25 @@ function Game (options) {
 		clearInterval(this.intervalForGood);
 		clearInterval(this.intervalForBad);
 
+		this.showFinalScreen();
+
+	}
+
+	this.showFinalScreen = function () {
+
+		var html = "<div class='final-screen-container'>" +
+		"<button id='start-button' class='start-button'>Start</button>" +
+		"<p>The end! You have " + this.gamePoints + " points</p>" +
+		"</div>",
+		button;
+
+		this.container.innerHTML = html;
+
+		button = document.getElementById('start-button');
+		button.addEventListener('click', function () {
+			self.container.innerHTML = "";
+			self.init();
+		}, false);
 	}
 
 }
