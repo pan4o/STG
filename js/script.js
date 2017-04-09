@@ -116,18 +116,22 @@ function Game (options) {
 
 	this.clickHandler = function (target) {
 
-		if (self.checkAttribute(target, 'good')) {
+		if (!target.hasAttribute('clicked')) {
 
-			this.changePoints(true);
+			if (self.checkAttribute(target, 'good')) {
+
+				this.changePoints(true);
 
 
-		} else if (self.checkAttribute(target, 'bad')) {
+			} else if (self.checkAttribute(target, 'bad')) {
 
-			this.changePoints(false);
+				this.changePoints(false);
+
+			}
 
 		}
 
-		//target.setAttribute('clicked', true);
+		target.setAttribute('clicked', true);
 
 	}
 
@@ -182,6 +186,12 @@ function Game (options) {
 				self.busyHoleIndex = randomHoleIndex;
 
 				self.holesArr[randomHoleIndex].appendChild(man);
+
+				if (man.hasAttribute('clicked')) {
+
+					man.removeAttribute('clicked');
+
+				}
 
 			}, self.delay
 		);
